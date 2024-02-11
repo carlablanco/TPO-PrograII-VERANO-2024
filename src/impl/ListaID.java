@@ -21,6 +21,12 @@ public class ListaID implements ListaTDA {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void Eliminar() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public int Recuperar(int indice) {
@@ -39,5 +45,7 @@ public class ListaID implements ListaTDA {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 }
