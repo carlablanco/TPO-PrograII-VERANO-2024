@@ -91,19 +91,23 @@ public class Lista implements ListaTDA {
 //		 return auxiliar.info; // esto tiene que devolver.
 //		 
 	public boolean existe(int elemento) {
-		boolean existe = true;
+		boolean bandera = false;
 		Nodo auxiliar = new Nodo();
 		auxiliar = inicio;
-		if (auxiliar == null && auxiliar.info != elemento) {
-			existe = false;
-			
-		} else {
-			while(auxiliar.info != elemento) {
-				auxiliar = auxiliar.siguiente;
+		
+		while (auxiliar != null) {
+			if (auxiliar.info == elemento) {
+				bandera = true;
+				break;
+			}else {
+				bandera = false;
 			}
+			auxiliar = auxiliar.siguiente;
+			
 		}
-		return existe;
+		return bandera;
 	}
+		
 	
 	public int len() {
 		int largo = 0 ;
