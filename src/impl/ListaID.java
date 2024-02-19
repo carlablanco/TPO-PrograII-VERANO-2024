@@ -1,101 +1,141 @@
 package impl;
 
-import api.ListaTDA;
+import apis.ListaTDA;
 
-public class ListaID implements ListaTDA {
-	private Nodo inicio;
-	private Nodo ultimo;
-
-	@Override
-	public void Inicializar() {
-        inicio = null;
-        ultimo = null;
-	}
-
-	@Override
-	public void Agregar(int x) {
-		Nodo nuevoNodo = new Nodo();
-		nuevoNodo.valor = x;
-		nuevoNodo.siguiente = null;
-		
-		// Si la lista estaba vacia
-		if (inicio == null) {
-			ultimo = nuevoNodo;
-			inicio = ultimo;
-		}
-		// Si la lista tenia items
-		if (ultimo != null) {
-			ultimo.siguiente = nuevoNodo;
-			ultimo = nuevoNodo;
-		}
-	}
-
+public class Lista implements ListaTDA {
 	
-	@Override
-	public void Eliminar(int x) {
-		// Elimina solo la primera aparicion o todas?
-		Nodo actual = inicio;
+	Nodo inicio;
+	Nodo fin;
+	
+	public void inicializarLista() {
+		inicio = null;
+		fin = null;
+	}
+
+	public void agregar (int elemento) {
 		
-		if (actual.valor == x) {
-			Eliminar();
-		}
-		else {
+		Nodo nuevoDato = new Nodo();
+		nuevoDato.info = elemento;
+		nuevoDato.siguiente = null;
 		
-		while (actual.siguiente != null && actual.siguiente.valor != x) {
-			actual = actual.siguiente;
+		if (inicio == null && fin == null) {
+			inicio = nuevoDato;
+			fin = nuevoDato;
+		
 		}
-		if (actual.siguiente != null) {
-			actual.siguiente = actual.siguiente.siguiente;
-		}
+		else { 	
+				fin.siguiente = nuevoDato;
+				fin = nuevoDato;
+			
 		}
 	}
-	
-	@Override
-	public void Eliminar() {
+
+	public void eliminar() {
 		if (inicio != null) {
 			inicio = inicio.siguiente;
+			
 		}
 	}
 
-	@Override
-	public int Recuperar(int indice) {
-		// TODO Auto-generated method stub
-		Nodo actual = inicio;
-		int count = 0;
-		while (actual != null && count < indice) {
-			actual = actual.siguiente;
-			count++;
+	public void eliminar(int elemento) {
+		Nodo nodoActual = new Nodo();
+		nodoActual = inicio;
+		if (nodoActual.info == elemento && inicio.info == elemento) {
+			eliminar();
+		} else {
+			while(nodoActual != null && nodoActual.siguiente.info != elemento) {
+				nodoActual = nodoActual.siguiente; // con esto encuentro el nodo 
+			}
+			nodoActual.siguiente =nodoActual.siguiente.siguiente;
+			
 		}
-		return actual.valor;
 	}
 
-	@Override
-	public int Len() {
-		int count = 0;
-		Nodo actual = inicio;
-		while (actual != null) {		
-			count++;
-			actual = actual.siguiente;
+	public int recuperar(int indice) { // paso a void
+		// tengo que recuperar el aux.info;
+		// es throw es lo mismo que el raise en python que vimos en progra 1.
+		try {
+			
+			if (indice < 0 || indice > len() ) {
+				throw new IndexOutOfBoundsException ("No podes ingresar un valor fuera de rango");
+				
+			}
+			int indices = 0;
+			Nodo auxiliar = new Nodo();
+			auxiliar = inicio;
+			while(auxiliar != null && indices < indice) {
+				auxiliar = auxiliar.siguiente;
+				indices ++;
+				
+			}
+			return auxiliar.info;
+			
+		} catch(IndexOutOfBoundsException e) {
+			System.out.print(e.getMessage());
+			return -1;
+			
 		}
-		return count;
+	}
+//		 if (indice < 0 || indice > len()) {
+//			 throw new IndexOutOfBoundsException("No podes ingresar un valor fuera largo"); 
+//		 }
+//		 try)
+//		 int indices = 0;
+//		 Nodo auxiliar = new Nodo();
+//		 auxiliar = inicio;
+//		 
+//		 while(auxiliar != null && indices < indice) {
+//			 auxiliar = auxiliar.siguiente;
+//			 indices ++;
+//		 }
+//		 return auxiliar.info; // esto tiene que devolver.
+//		 
+	public boolean existe(int elemento) {
+		boolean existe = true;
+		Nodo auxiliar = new Nodo();
+		auxiliar = inicio;
+		if (auxiliar == null && auxiliar.info != elemento) {
+			existe = false;
+			
+		} else {
+			while(auxiliar.info != elemento) {
+				auxiliar = auxiliar.siguiente;
+			}
+		}
+		return existe;
+	}
+	
+	public int len() {
+		int largo = 0 ;
+		Nodo auxiliar = new Nodo();
+		auxiliar = inicio;
+		
+		while(auxiliar != null) {
+			auxiliar = auxiliar.siguiente;
+			largo ++;
+		}
+		return largo;
 	}
 
 	
-	@Override
-	public boolean Existe(int x) {
-		// TODO Auto-generated method stub
-		Nodo actual = inicio;
+	public void mostrarLista() {
+		Nodo auxiliar= new Nodo();
+		auxiliar = inicio;
 		
-		while (actual != null) {
-			if (actual.valor == x) {
-				return true;
-			} else {
-				actual = actual.siguiente;
-			}		
+		if (auxiliar == null) {
+			System.out.println("La lista se encuentra vacia");
 		}
-		return false;
+		else {
+			System.out.print("[ ");
+			while(auxiliar != null) {
+				System.out.print(auxiliar.info+" ");
+				auxiliar = auxiliar.siguiente;
+			}
+			System.out.print("]");
+			System.out.println(" ");
+		}
+		
 	}
 
-
-
 }
+
